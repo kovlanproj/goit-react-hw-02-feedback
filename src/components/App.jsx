@@ -5,10 +5,6 @@ import { Section } from './Feedback';
 import { Notification } from './Feedback';
 import { Container } from './App.styled.js';
 
-// export const App = () => {
-//   return <Feedback />;
-// };
-
 export class App extends Component {
   state = {
     good: 0,
@@ -22,22 +18,19 @@ export class App extends Component {
 
   countTotalFeedbacks = () => {
     const values = Object.values(this.state);
-
-    let total = 0;
-
-    for (const value of values) {
-      total += value;
-    }
-    return total;
+    return values.reduce((prevValue, value) => prevValue + value);
   };
 
   countPositiveFeedbackPercentage = () => {
-    // console.log(typeof this.state.good);
     return Math.round((this.state.good / this.countTotalFeedbacks()) * 100);
   };
 
   render() {
     const options = Object.keys(this.state);
+    const { good, neutral, bad } = this.state;
+    const totalFeedbacks = this.countTotalFeedbacks();
+    const positiveFeedbacks = this.countPositiveFeedbackPercentage();
+
     return (
       <Container>
         <Section title="Please leave feedback">
@@ -48,15 +41,15 @@ export class App extends Component {
         </Section>
 
         <Section title="Statistics">
-          {this.countTotalFeedbacks() === 0 ? (
+          {totalFeedbacks === 0 ? (
             <Notification message="There is no feedback" />
           ) : (
             <Statistics
-              good={this.state.good}
-              neutral={this.state.neutral}
-              bad={this.state.bad}
-              total={this.countTotalFeedbacks()}
-              positivePercentage={this.countPositiveFeedbackPercentage()}
+              good={good}
+              neutral={neutral}
+              bad={bad}
+              total={totalFeedbacks}
+              positivePercentage={positiveFeedbacks}
             />
           )}
         </Section>
