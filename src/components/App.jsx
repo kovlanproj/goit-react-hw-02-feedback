@@ -18,7 +18,7 @@ export class App extends Component {
 
   countTotalFeedbacks = () => {
     const values = Object.values(this.state);
-    return values.reduce((prevValue, value) => prevValue + value);
+    return values.reduce((prevValue, value) => prevValue + value, 0);
   };
 
   countPositiveFeedbackPercentage = () => {
@@ -41,7 +41,7 @@ export class App extends Component {
         </Section>
 
         <Section title="Statistics">
-          {totalFeedbacks === 0 ? (
+          {!totalFeedbacks ? (
             <Notification message="There is no feedback" />
           ) : (
             <Statistics
